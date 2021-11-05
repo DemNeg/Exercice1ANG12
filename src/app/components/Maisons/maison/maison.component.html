@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <ul class="navbar navbar-nav">
+    <li>
+      <button class="btn btn-outline-dark ml-2" (click)="onGetList()">LIST DES MAISONS</button>
+    </li>
+    <li>
+      <button class="btn btn-outline-dark ml-2" (click)="onNewMaison()">NOUVEAU</button>
+    </li>
+  </ul>
+  <ul class="navbar-nav ml-auto">
+    <form class="form-inline" #f=ngForm (ngSubmit)="onSearch(f.value)">
+      <input ngModel class="form-control mr-sm-2" type="search" name="keyword" placeholder="SEARCH" aria-label="Search">
+      <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><span class="fa fa-search"></span>SEARCH</button>
+    </form>
+  </ul>
+</nav>
+<div class="container py-5">
+  <ng-container *ngIf="maisonList$|async as result " [ngSwitch]="result.affichStateEnum">
+    <ng-container *ngSwitchCase="affichStateEnum.LOADING">
+      LOADING ...
+    </ng-container>
+
+    <ng-container *ngSwitchCase="affichStateEnum.ERROR">
+      <span>{{result.errorM}}</span>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="affichStateEnum.LOADED">
+      <table class="table table-bordered table-striped">
+        <tr class="bg-dark text-light">
+          <th>ID</th><th>DIMENSION</th><th>PRICE</th><th>OWNER</th>
+        </tr>
+        <tr *ngFor="let m of result.data._embedded.maisons">
+          <td>{{m.id}}</td>
+          <td>{{m.dimension}}</td>
+          <td>{{m.price}}</td>
+          <td>{{m.owner}}</td>
+          <td>
+            <button class="btn btn-info" (click)="onEditMaison(m)">
+              <span class="fa fa-edit"></span>
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="onDeleteMaison(m)">
+              <span class="fa fa-trash-o"></span>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </ng-container>
+    <nav aria-label="...">
+      <ul class="pagination pagination-lg">
+        <li class="page-item clickable" [ngClass]="i==currentPage?'active':''" aria-current="page"
+            *ngFor="let pa of  result.pages;let i=index">
+          <a (click)="onPageProduct(i)" class="page-link">{{i}}</a>
+        </li>
+      </ul>
+    </nav>
+  </ng-container>
+
+</div>
+

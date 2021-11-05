@@ -1,0 +1,25 @@
+<div class="container col-md-6 col-sm-6 col-xs-12 py-5" *ngIf="currentMaison">
+  <div class="card">
+    <div class="card-header text-white bg-info mb-3">EDITION D'UNE MAISON</div>
+    <div class="card-body">
+      <form #f=ngForm (ngSubmit)="onUpdateMaison(f.value)">
+        <div class="form-group">
+          <input ngModel [(ngModel)]="currentMaison.id" type="hidden" name="id" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>DIMENSION</label>
+          <input ngModel [(ngModel)]="currentMaison.dimension" type="text" name="dimension" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>PRICE</label>
+          <input ngModel [(ngModel)]="currentMaison.price" type="text" name="price" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>OWNER</label>
+          <input ngModel [(ngModel)]="currentMaison.owner" type="text" name="owner" class="form-control">
+        </div>
+        <button class="btn btn-info">Update</button>
+      </form>
+    </div>
+  </div>
+</div>

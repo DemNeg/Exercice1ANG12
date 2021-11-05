@@ -1,0 +1,22 @@
+<div class="container col-md-6 col-sm-6 col-xs-12 py-5">
+  <div class="card">
+    <div class="card-header text-white bg-primary mb-3">AJOUT D'UNE MAISON</div>
+    <div class="card-body">
+      <form #f=ngForm (ngSubmit)="onSaveMaison(f.value)">
+        <div class="form-group">
+          <label>DIMENSION</label>
+          <input ngModel type="text" name="dimension" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>PRICE</label>
+          <input ngModel type="text" name="price" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>OWNER</label>
+          <input ngModel type="text" name="owner" class="form-control">
+        </div>
+        <button class="btn btn-primary">SAVE</button>
+      </form>
+    </div>
+  </div>
+</div>
