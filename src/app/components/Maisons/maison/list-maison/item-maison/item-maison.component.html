@@ -1,0 +1,15 @@
+<tr *ngIf="maison">
+  <td>{{maison.id}}</td>
+  <td>{{maison.dimension}}</td>
+  <td>{{maison.price}}</td>
+  <td>{{maison.owner}}</td>
+  <td>
+    <button class="btn btn-info" (click)="onEditMaison(maison)">
+      <span class="fa fa-edit"></span>
+    </button>
+  </td>
+  <td>
+    <button class="btn btn-danger" (click)="onDeleteMaison(maison)">
+      <span class="fa fa-trash-o"></span>
+    </button>
+  </td>

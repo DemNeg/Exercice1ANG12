@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MaisonServiceService} from "../../../services/maison-service.service";
 import {Observable, of} from "rxjs";
-import {Maison} from "../../../Model/maison.model";
 import {catchError, map, startWith} from "rxjs/operators";
-import {AffichageStateENum, MaisonDataState} from "../../../State/MaisonState";
+import {
+  AffichageStateENum,
+  MainsonCommandEvent,
+  MainsonQueryEvent,
+  MaisonCommandEventTypes,
+  MaisonDataState,
+  MaisonQueryEventTypes
+} from "../../../State/MaisonState";
 import {Router} from "@angular/router";
+import {EventDrivenServiceService} from "../../../services/event-driven-service.service";
 
 @Component({
   selector: 'app-maison',
@@ -14,16 +21,25 @@ import {Router} from "@angular/router";
 export class MaisonComponent implements OnInit {
 
   public maisonList$!:Observable<MaisonDataState<any>>;
-  readonly affichStateEnum = AffichageStateENum;
   public currentPage:number = 0;
   public size:number = 5;
   public totalPages!:number;
-  public pages!:Array<number>;
   public currenKeyword:string="";
 
-  constructor(private maisonService:MaisonServiceService,private router:Router) { }
+  constructor(private maisonService:MaisonServiceService,private router:Router,
+              private eventDrivenService : EventDrivenServiceService) { }
 
   ngOnInit(): void {
+      this.eventDrivenService.sourceQueryEventSubjectObservable
+        .subscribe((queryActionEvent:MainsonQueryEvent)=>{
+          this.onQueryAction(queryActionEvent);
+        });
+
+      this.eventDrivenService.sourceCommandEventSubjectObservable
+        .subscribe((commandActionEvent:MainsonCommandEvent)=>{
+          this.onCommandAction(commandActionEvent);
+        });
+
   }
 
   onGetList() {
@@ -53,7 +69,8 @@ export class MaisonComponent implements OnInit {
 
   }
 
-  onPageProduct(i: number) {
+  onPageMaison(i: number) {
+    console.log(i);
     this.currentPage = i;
     this.search();
   }
@@ -105,5 +122,24 @@ export class MaisonComponent implements OnInit {
           alert("MAISON DELETED WITH SUCCESS !")
           this.onGetList();
         });
+  }
+
+
+  onCommandAction($event: MainsonCommandEvent) {
+    switch ($event.type) {
+      case MaisonCommandEventTypes.EDIT_MAISON : this.onEditMaison($event.payload); break;
+      case MaisonCommandEventTypes.DELETE_MAISON : this.onDeleteMaison($event.payload); break;
+    }
+  }
+
+  onQueryAction($event: MainsonQueryEvent) {
+      switch ($event.type) {
+
+        case MaisonQueryEventTypes.GET_ALL_MAISON : this.onGetList(); break;
+        case MaisonQueryEventTypes.NEW_MAISON : this.onNewMaison(); break;
+        case MaisonQueryEventTypes.SEARCH_MAISON : this.onSearch($event.payload); break;
+        case MaisonQueryEventTypes.ON_PAGE_MAISON : this.onPageMaison($event.payload); break;
+
+      }
   }
 }

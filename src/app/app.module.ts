@@ -10,6 +10,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import { NewMaisonComponent } from './components/Maisons/new-maison/new-maison.component';
 import { EditMaisonComponent } from './components/Maisons/edit-maison/edit-maison.component';
+import { ListMaisonComponent } from './components/Maisons/maison/list-maison/list-maison.component';
+import { ItemMaisonComponent } from './components/Maisons/maison/list-Maison/item-maison/item-maison.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { EditMaisonComponent } from './components/Maisons/edit-maison/edit-maiso
     ChildNavBarComponent,
     MaisonComponent,
     NewMaisonComponent,
-    EditMaisonComponent
+    EditMaisonComponent,
+    ListMaisonComponent,
+    ItemMaisonComponent
   ],
   imports: [
     BrowserModule,

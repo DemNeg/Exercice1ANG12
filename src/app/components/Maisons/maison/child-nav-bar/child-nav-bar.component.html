@@ -1,11 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <ul class="navbar navbar-nav">
     <li>
-      <button class="btn btn-outline-dark ml-2">LIST DES MAISONS</button>
+      <button class="btn btn-outline-dark ml-2" (click)="onGetList()">LIST DES MAISONS</button>
     </li>
     <li>
-      <button class="btn btn-outline-dark ml-2">NOUVEAU</button>
+      <button class="btn btn-outline-dark ml-2" (click)="onNewMaison()">NOUVEAU</button>
     </li>
+  </ul>
+  <ul class="navbar-nav ml-auto">
+    <form class="form-inline" #f=ngForm (ngSubmit)="onSearch(f.value)">
+      <input ngModel class="form-control mr-sm-2" type="search" name="keyword" placeholder="SEARCH" aria-label="Search">
+      <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><span class="fa fa-search"></span>SEARCH</button>
+    </form>
   </ul>
 </nav>
 
